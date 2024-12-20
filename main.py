@@ -173,6 +173,7 @@ exportmenu = Menu(menu)
 menu.add_cascade(menu=exportmenu, label='Export')
 
 export_win = Toplevel('Export', resizable=(False, False), minsize=(300, 150))
+export_win.withdraw()
 dark_title_bar(export_win)
 #export_win.withdraw()
 
