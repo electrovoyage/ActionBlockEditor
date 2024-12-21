@@ -1,0 +1,1 @@
+py -m PyInstaller --onefile --optimize 2 --noconsole --workpath temp --upx-dir F:/upx --clean main.py

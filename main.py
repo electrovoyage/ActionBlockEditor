@@ -11,6 +11,7 @@ win = Window('ActionBlock Editor', themename='darkly', size=(480, 320))
 NORMAL_FONT = Font(win, family='Consolas', size=16)
 BOLD = Font(win, family='Consolas', size=16, weight='bold')
 ITALIC = Font(win, family='Consolas', size=16, slant='italic')
+ITALICBOLD = Font(win, family='Consolas', size=16, weight='bold', slant='italic')
 
 actionframe = Frame(win)
 actions: Text = Text(actionframe, font=NORMAL_FONT, tabs=50, height=win.winfo_screenheight())
@@ -25,7 +26,8 @@ syntax_regexes = {
     'tagged_object': r'[{][{}_\"a-zA-Z0-9: ,]+[}]',
     'object_properties': r'[\[][a-zA-Z0-9\=,\" .\{\}-]+[\]]',
     'number': r'[~^]?([+-]?(?=\.\d|\d)(?:\d+)?(?:\.?\d*))(?:[Ee]([+-]?\d+))?',
-    'mistake': r'//statement//'
+    'mistake': r'//statement//',
+    '@T-Special': r'@T'
 }
 
 def dark_title_bar(window: Window):
@@ -51,6 +53,7 @@ actions.tag_configure('number', font=BOLD, foreground='#3489eb')
 actions.tag_configure('string', font=ITALIC, foreground='#7feba6', tabstyle='wordprocessor')
 actions.tag_configure('resource', foreground='#0bbd14', font=ITALIC)
 actions.tag_configure('entity_specifier', foreground='#7986fc', font=ITALIC)
+actions.tag_configure('@T-Special', foreground='#7986fc', font=ITALICBOLD)
 actions.tag_configure('semicolon', foreground='#b07cde')
 actions.tag_configure('tagged_object', foreground='#e985ff')
 actions.tag_configure('object_properties', foreground='#a579fc')
@@ -215,6 +218,8 @@ def make_code() -> str:
     s = ''
     for _line in text.splitlines():
         line = _line.strip()
+        if not line:
+            continue
         s += line[:-1] + ACTIONSEP
         
     return s
